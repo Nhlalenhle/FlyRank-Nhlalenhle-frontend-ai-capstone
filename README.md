@@ -1,43 +1,49 @@
-# FlyRank frontend AI capstone
+# Reelspace — AI-assisted React movie discovery
 
-Capstone repository for the **Frontend AI Engineering** track. The site will be a responsive, mobile-first frontend built with AI-assisted workflows in Cursor.
+Week 3 application for the Frontend AI Engineering track, built in the existing FlyRank capstone repository.
 
-## Overview
-
-Week 1 (FE-01) is toolchain setup: Node.js LTS, Git, Cursor, this GitHub repo, and Conventional Commits. Later weeks add the application itself, deployment, and accessibility work.
+## Features
+- Search movies by title, genre, or year
+- Filter the catalogue by genre
+- Open a movie details dialog
+- Add/remove favourites in a persistent watchlist
+- Responsive layout and empty states
+- No API keys or backend required
 
 ## Tech stack
+React, TypeScript, Vite, CSS, browser localStorage.
 
-- **App:** Vite, React, TypeScript
-- **Styling:** Tailwind CSS
-- **Runtime:** Node.js LTS (currently 24.x )
-- **AI toolchain:** Cursor (project rules in `.cursor/rules/` and `CLAUDE.md`)
+## Run locally
+```bash
+npm install
+npm run dev
+```
 
-## Prerequisites
+Verify before submission:
+```bash
+npm test
+npm run build
+```
 
+## Assignment evidence
+- Prompt log: [PROMPTS.md](./PROMPTS.md)
+- AI workflow, manual improvements, and limitations: [WORKFLOW.md](./WORKFLOW.md)
+
+## Scope note
+This is an independent front-end interpretation of a movie discovery app inspired by the category of the mentor reference. It does not copy the reference repository's source code. It uses local demo data rather than live OMDb results and does not include Firebase authentication.
+
+---
+
+## Repository / course context
+
+Capstone repository for the **Frontend AI Engineering** track. The project uses Vite, React, TypeScript, and CSS. Project conventions live in `CLAUDE.md` and `.cursor/rules/`.
+
+### Prerequisites
 - Node.js LTS
 - Git
-- Cursor
 
-## Getting started
+### Git convention
+Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
 
-```bash
-git clone https://github.com/Nhlalenhle/FlyRank-Nhlalenhle-frontend-ai-capstone.git
-cd FlyRank-Nhlalenhle-frontend-ai-capstone
-```
-
-The app scaffold lands in a later week. Until then, conventions live in `CLAUDE.md`.
-
-## Git convention
-
-Commits follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
-
-```text
-feat: add product grid
-fix: correct mobile nav focus order
-docs: explain local setup
-```
-
-## License
-
+### License
 MIT — see [LICENSE](LICENSE).
