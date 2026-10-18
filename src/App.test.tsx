@@ -3,53 +3,51 @@ import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  localStorage.clear();
+});
 
-describe("account settings form", () => {
-  it("saves valid settings and announces success", async () => {
+describe("Reelspace movie discovery", () => {
+  it("filters the catalogue by a search query", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.clear(screen.getByRole("textbox", { name: "Full name" }));
-    await user.type(screen.getByRole("textbox", { name: "Full name" }), "Boni Nxumalo");
-    await user.click(screen.getByRole("button", { name: /save changes/i }));
-    expect(screen.getByRole("status")).toHaveTextContent("Your settings have been saved.");
+    await user.type(screen.getByRole("textbox", { name: "Search movies" }), "interstellar");
+    expect(screen.getByRole("button", { name: "Interstellar" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Coco" })).not.toBeInTheDocument();
   });
 
-  it("rejects a blank or whitespace-only name", async () => {
+  it("filters by genre", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.clear(screen.getByRole("textbox", { name: "Full name" }));
-    await user.type(screen.getByRole("textbox", { name: "Full name" }), "   ");
-    await user.click(screen.getByRole("button", { name: /save changes/i }));
-    expect(screen.getByText("Enter your full name.")).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: "Full name" })).toHaveAttribute("aria-invalid", "true");
-    expect(screen.getByRole("status")).not.toHaveTextContent("Your settings have been saved.");
+    await user.selectOptions(screen.getByRole("combobox", { name: "Filter by genre" }), "Animation");
+    expect(screen.getByRole("button", { name: "Coco" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Interstellar" })).not.toBeInTheDocument();
   });
 
-  it("rejects a missing email address", async () => {
+  it("adds a film to the watchlist and updates the count", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.clear(screen.getByRole("textbox", { name: "Email address" }));
-    await user.click(screen.getByRole("button", { name: /save changes/i }));
-    expect(screen.getByText("Enter your email address.")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Add Dune: Part Two to watchlist" }));
+    expect(screen.getByRole("button", { name: "Remove Dune: Part Two from watchlist" })).toBeInTheDocument();
+    expect(screen.getByText("01", { selector: ".hero-stats strong" })).toBeInTheDocument();
+    expect(JSON.parse(localStorage.getItem("cinema-club-favourites") ?? "[]")).toContain("dune2");
   });
 
-  it("rejects a malformed email address", async () => {
+  it("shows an empty state when the search has no matches", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.clear(screen.getByRole("textbox", { name: "Email address" }));
-    await user.type(screen.getByRole("textbox", { name: "Email address" }), "not-an-email");
-    await user.click(screen.getByRole("button", { name: /save changes/i }));
-    expect(screen.getByText("Enter a valid email address.")).toBeInTheDocument();
+    await user.type(screen.getByRole("textbox", { name: "Search movies" }), "not-a-real-film");
+    expect(screen.getByText("No films found.")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reset filters" })).toBeInTheDocument();
   });
 
-  it("clears the relevant error when the user corrects the field", async () => {
+  it("opens and closes the movie details dialog", async () => {
     const user = userEvent.setup();
     render(<App />);
-    await user.clear(screen.getByRole("textbox", { name: "Full name" }));
-    await user.click(screen.getByRole("button", { name: /save changes/i }));
-    expect(screen.getByText("Enter your full name.")).toBeInTheDocument();
-    await user.type(screen.getByRole("textbox", { name: "Full name" }), "Boni Nxumalo");
-    expect(screen.queryByText("Enter your full name.")).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "View details for Interstellar" }));
+    expect(screen.getByRole("dialog", { name: "Interstellar" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Close details" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 });
