@@ -1,0 +1,13 @@
+---
+description: Stack, Git, and AI workflow conventions for this capstone
+alwaysApply: true
+---
+
+# Stack and conventions
+
+- Node.js LTS, Vite, React, TypeScript, Tailwind CSS, npm
+- Conventional Commits: `feat|fix|docs|chore|refactor|test|ci: imperative subject`
+- Functional components, semantic HTML, no unexplained `any`
+- Do not commit secrets, `.env`, or `node_modules`
+- Review AI output; verify UI changes in the browser
+- Keep diffs focused on one concern per commit
