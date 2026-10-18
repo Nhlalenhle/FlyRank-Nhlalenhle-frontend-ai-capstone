@@ -39,7 +39,7 @@ describe("Reelspace movie discovery", () => {
     render(<App />);
     await user.type(screen.getByRole("textbox", { name: "Search movies" }), "not-a-real-film");
     expect(screen.getByText("No films found.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Reset filters" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /reset filters/i })).toBeInTheDocument();
   });
 
   it("opens and closes the movie details dialog", async () => {
