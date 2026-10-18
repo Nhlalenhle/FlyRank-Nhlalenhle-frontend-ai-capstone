@@ -10,7 +10,7 @@ Week 1 (FE-01) is toolchain setup: Node.js LTS, Git, Cursor, this GitHub repo, a
 
 - **App:** Vite, React, TypeScript
 - **Styling:** Tailwind CSS
-- **Runtime:** Node.js LTS (currently 24.x locally)
+- **Runtime:** Node.js LTS (currently 24.x )
 - **AI toolchain:** Cursor (project rules in `.cursor/rules/` and `CLAUDE.md`)
 
 ## Prerequisites
